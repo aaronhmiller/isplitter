@@ -1,4 +1,4 @@
-After a glass of wine or two, even simple math can suck some fun out of the evening. Splitter to the rescue!
+#summary After a glass of wine or two, even simple math can suck some fun out of the evening. Splitter to the rescue!
 
 == Introduction ==
 
