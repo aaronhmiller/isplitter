@@ -27,8 +27,9 @@
 	[table reloadData];
 	
 	navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width,UI_TOP_NAVIGATION_BAR_HEIGHT)];
-//	[navBar showButtonsWithLeftTitle:@"Clear" rightTitle:@"Calculate"];
+	[navBar showButtonsWithLeftTitle:@"Clear" rightTitle:@"Calculate"];
 	[navBar enableAnimation];
+	[navBar setDelegate: self];
  	[navBar pushNavigationItem: [[UINavigationItem alloc] initWithTitle: @"Splitter"]];
 
 	keyboard = [[UIKeyboard alloc] initWithDefaultSize];
@@ -75,17 +76,24 @@
 - (void)tableRowSelected:(NSNotification*)notification;
 {
 	NSLog(@"selected row %d", [table selectedRow]);
-	switch([table selectedRow])
+	//note: grouping seems to insert empty rows, adjust indices accordingly to trigger selectedRow
+}
+
+- (void)navigationBar:(UINavigationBar*)navBar buttonClicked:(int)button 
+{
+	switch (button) 
 	{
-		case 7: //calculate button
+		case 0:
 		{
+			NSLog(@"left");
 			float result = ([[billCell value] floatValue] * (1 + ([[tipCell value] floatValue]/100.0))) / [[splitCell value] floatValue];
 			[resultCell setValue:[NSString stringWithFormat:@"%.2f", result]];
 			[table setKeyboardVisible:NO];
 			break;
 		}
-		case 9: //clear all
+		case 1:
 		{
+			NSLog(@"right");
 			[billCell setValue:@""]; [billCell setPlaceHolderValue:@""];
 			[tipCell setValue:@""]; [tipCell setPlaceHolderValue:@""];
 			[splitCell setValue:@""]; [splitCell setPlaceHolderValue:@""];
@@ -93,18 +101,13 @@
 			[table setKeyboardVisible:NO];
 			break;
 		}
-		default:
-		{
-			[table setKeyboardVisible:NO];
-		}
-
 	}
 }
 
 // ---------------Datasource Methods---------------
 - (int)numberOfGroupsInPreferencesTable:(UIPreferencesTable *)table
 {
-	return 4;
+	return 3;
 }
 
 - (int)preferencesTable:(UIPreferencesTable *)table numberOfRowsInGroup:(int)group
@@ -114,7 +117,6 @@
 		case 0: return 3;
 		case 1: return 1;
 		case 2: return 1;
-		case 3: return 2;
 	}
 }
 
@@ -142,35 +144,14 @@
 	}
 	else if (group == 2) 
 	{
-		UIPreferencesTableCell *cell = [[UIPreferencesTableCell alloc] init];
-		[cell setTitle:@"Calculate"];
-		[cell setAlignment:2];
-		return [cell autorelease];
-	}
-	else if (group == 3) 
-	{
-		switch (row)
 		{
-			case 0:
-			{
-				UIPreferencesDeleteTableCell *cell = [[UIPreferencesDeleteTableCell alloc] initWithFrame:CGRectMake(0, 0, 320, 45)];
-				[cell setTitle:@"Clear"];
-				[cell setAlignment:2];
-				return [cell autorelease];
-			}
-			case 1:
-			{
-//				NSString *version = [NSString stringWithFormat:@"Version 0.2 %C 2007 Aaron Miller", 0xA9];
-				NSString *version = [NSString stringWithFormat:@""];
-				[versionCell setTitle:version];
-				[versionCell setAlignment:2];
-				CGColorSpaceRef textColor = CGColorSpaceCreateDeviceRGB();
-				float white[4] = {1.0, 1.0, 1.0, 1.0};
-				[[versionCell titleTextLabel] setColor:CGColorCreate(textColor, white)];
-				[versionCell setDrawsBackground:NO];
-				[versionCell setEnabled:NO];
-				return versionCell;
-			}
+//			NSString *version = [NSString stringWithFormat:@"Version 0.3 %C 2007 Aaron Miller", 0xA9];
+			NSString *version = [NSString stringWithFormat:@""];
+			[versionCell setTitle:version];
+			[versionCell setAlignment:2];
+			[versionCell setDrawsBackground:NO];
+			[versionCell setEnabled:NO];
+			return versionCell;
 		}
 	}
 }
