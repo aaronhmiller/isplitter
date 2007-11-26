@@ -27,6 +27,7 @@
 	[table reloadData];
 	
 	navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width,UI_TOP_NAVIGATION_BAR_HEIGHT)];
+	[navBar showButtonsWithLeftTitle:nil rightTitle:@"Clear"];
 	[navBar enableAnimation];
  	[navBar pushNavigationItem: [[UINavigationItem alloc] initWithTitle: @"Splitter"]];
 
