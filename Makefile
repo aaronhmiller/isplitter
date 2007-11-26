@@ -1,4 +1,3 @@
-
 CC = /usr/local/bin/arm-apple-darwin-gcc
 LD = $(CC)
 LDFLAGS = -Wl,-syslibroot,/usr/local/share/iphone-filesystem -ObjC \
