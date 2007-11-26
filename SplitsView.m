@@ -26,8 +26,7 @@
 	[table setDelegate:self];
 	[table reloadData];
 	
-	navBar = [[UINavigationBar alloc] init];
-	[navBar setFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width,UI_TOP_NAVIGATION_BAR_HEIGHT)];
+	navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width,UI_TOP_NAVIGATION_BAR_HEIGHT)];
 	[navBar enableAnimation];
  	[navBar pushNavigationItem: [[UINavigationItem alloc] initWithTitle: @"Splitter"]];
 
