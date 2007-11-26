@@ -27,7 +27,7 @@
 	[table reloadData];
 	
 	navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width,UI_TOP_NAVIGATION_BAR_HEIGHT)];
-//	[navBar showButtonsWithLeftTitle:@"Calculate" rightTitle:@"Clear"];
+//	[navBar showButtonsWithLeftTitle:@"Clear" rightTitle:@"Calculate"];
 	[navBar enableAnimation];
  	[navBar pushNavigationItem: [[UINavigationItem alloc] initWithTitle: @"Splitter"]];
 
@@ -168,6 +168,7 @@
 				float white[4] = {1.0, 1.0, 1.0, 1.0};
 				[[versionCell titleTextLabel] setColor:CGColorCreate(textColor, white)];
 				[versionCell setDrawsBackground:NO];
+				[versionCell setEnabled:NO];
 				return versionCell;
 			}
 		}
