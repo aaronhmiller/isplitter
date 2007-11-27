@@ -32,7 +32,6 @@
 }
 
 -(id)initWithFrame:(struct CGRect)frame;
--(void)reloadData;
 
 //Delegate Methods
 -(void)tableRowSelected:(NSNotification *)notification;
