@@ -65,11 +65,6 @@
 	return self;
 }
 
-- (void)reloadData
-{
-	[table reloadData];
-}
-
 // ----------------Delegate Methods----------------
 
 
