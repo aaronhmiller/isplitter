@@ -51,11 +51,11 @@
 	[splitCell setTitle:@"Split bill amongst: "];
 	[splitCell setPlaceHolderValue:@"4"];
 	[[splitCell textField] setPreferredKeyboardType: 1];
+	[[splitCell textField] setReturnAction: //TODO: FIGURE THIS OUT***
 
 	resultCell = [[UIPreferencesTextTableCell alloc] init];
 	[resultCell setTitle:@"Each party owes: "];
 	[resultCell setPlaceHolderValue:@"16.04"];
-//	[[resultCell textField] setReturnAction: //TODO: FIGURE THIS OUT***
 
 	versionCell = [[UIPreferencesTextTableCell alloc] init];
 
