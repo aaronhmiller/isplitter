@@ -1,0 +1,12 @@
+#summary Updates and future
+#labels Phase-Design
+
+= Version History =
+
+  * 0.2: initial release
+  * 0.3: moved buttons to Navigation Bar
+  * 0.3.1: added "return" key functionality to last entry cell. Now calculate activated by navBar or return
+
+= To do =
+
+  * Icon
