@@ -51,7 +51,8 @@
 	[splitCell setTitle:@"Split bill amongst: "];
 	[splitCell setPlaceHolderValue:@"4"];
 	[[splitCell textField] setPreferredKeyboardType: 1];
-//	[[splitCell textField] setReturnAction:@selector(calcIt:)]; //TODO: FIGURE THIS OUT***
+	[splitCell setReturnAction:@selector(calcIt)];
+	[splitCell setTarget:self];
 
 	resultCell = [[UIPreferencesTextTableCell alloc] init];
 	[resultCell setTitle:@"Each party owes: "];
@@ -65,12 +66,12 @@
 	return self;
 }
 
-/*
 - (void)calcIt
 {
-	//do something
+	float result = ([[billCell value] floatValue] * (1 + ([[tipCell value] floatValue]/100.0))) / [[splitCell value] floatValue];
+	[resultCell setValue:[NSString stringWithFormat:@"%.2f", result]];
+	[table setKeyboardVisible:NO];
 }
-*/
 
 // ----------------Delegate Methods----------------
 
@@ -88,9 +89,7 @@
 		case 0:
 		{
 			NSLog(@"left");
-			float result = ([[billCell value] floatValue] * (1 + ([[tipCell value] floatValue]/100.0))) / [[splitCell value] floatValue];
-			[resultCell setValue:[NSString stringWithFormat:@"%.2f", result]];
-			[table setKeyboardVisible:NO];
+			[self calcIt];
 			break;
 		}
 		case 1:
@@ -147,7 +146,7 @@
 	else if (group == 2) 
 	{
 		{
-//			NSString *version = [NSString stringWithFormat:@"Version 0.3 %C 2007 Aaron Miller", 0xA9];
+//			NSString *version = [NSString stringWithFormat:@"Version 0.3.1 %C 2007 Aaron Miller", 0xA9];
 			NSString *version = [NSString stringWithFormat:@""];
 			[versionCell setTitle:version];
 			[versionCell setAlignment:2];
