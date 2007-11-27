@@ -51,7 +51,7 @@
 	[splitCell setTitle:@"Split bill amongst: "];
 	[splitCell setPlaceHolderValue:@"4"];
 	[[splitCell textField] setPreferredKeyboardType: 1];
-//	[[splitCell textField] setReturnAction: //TODO: FIGURE THIS OUT***
+//	[[splitCell textField] setReturnAction:@selector(calcIt:)]; //TODO: FIGURE THIS OUT***
 
 	resultCell = [[UIPreferencesTextTableCell alloc] init];
 	[resultCell setTitle:@"Each party owes: "];
@@ -64,6 +64,13 @@
 
 	return self;
 }
+
+/*
+- (void)calcIt
+{
+	//do something
+}
+*/
 
 // ----------------Delegate Methods----------------
 
