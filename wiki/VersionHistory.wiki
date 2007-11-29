@@ -5,7 +5,8 @@
 
   * 0.2: initial release
   * 0.3: moved buttons to Navigation Bar
-  * 0.3.1: added "return" key functionality to last entry cell. Now calculate activated by navBar or return
+  * 0.3.1: added "return" key functionality to last entry cell. Now calculate activated by navBar or return triggered from Split cell
+  * 0.3.2: updated version & copyright text to use `_setDrawAsLabel`, minor code cleanup
 
 = To do =
 
