@@ -48,6 +48,8 @@
 	splitCell = [[UIPreferencesTextTableCell alloc] init];
 	[splitCell setTitle:@"Split bill amongst:"];
 	[splitCell setPlaceHolderValue:@"4"];
+	[[splitCell textField] setReturnKeyType: 1]; //GO button
+	[[splitCell textField] setAutoEnablesReturnKey: YES];
 	[[splitCell textField] setPreferredKeyboardType: 1];
 	[splitCell setReturnAction:@selector(calcIt)];
 	[splitCell setTarget: self];
