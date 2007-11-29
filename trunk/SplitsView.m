@@ -143,9 +143,9 @@
 	}
 	else if (group == 2) 
 	{
-		[versionCell setEnabled:NO];
-//		NSString *version = [NSString stringWithFormat:@"Version 0.3.2 %C 2007 Aaron Miller", 0xA9];
+//		NSString *version = [NSString stringWithFormat:@"Version 0.3.3 %C 2007 Aaron Miller", 0xA9];
 		NSString *version = [NSString stringWithFormat:@""];
+		[versionCell setEnabled:NO];
 		[versionCell setTitle:version];
 		[versionCell setDrawsBackground:NO];
 		[versionCell _setDrawAsLabel:YES];
