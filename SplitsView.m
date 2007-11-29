@@ -35,27 +35,25 @@
 	keyboard = [[UIKeyboard alloc] initWithDefaultSize];
 
 	billCell = [[UIPreferencesTextTableCell alloc] init];
-	[billCell setAlignment:3];
-	[billCell setTitle:@"Amount of bill: "];
+	[billCell setTitle:@"Amount of bill:"];
 	[billCell setPlaceHolderValue:@"54.37"];
-	[billCell setSelected:YES];
 	[[billCell textField] setPreferredKeyboardType: 1];
 
 	tipCell = [[UIPreferencesTextTableCell alloc] init];
-	[tipCell setTitle:@"Tip percentage: "];
+	[tipCell setTitle:@"Tip percentage:"];
 	[tipCell setPlaceHolderValue:@"18%"];
 	[tipCell setValueSuffix:@"%"];
 	[[tipCell textField] setPreferredKeyboardType: 1];
 
 	splitCell = [[UIPreferencesTextTableCell alloc] init];
-	[splitCell setTitle:@"Split bill amongst: "];
+	[splitCell setTitle:@"Split bill amongst:"];
 	[splitCell setPlaceHolderValue:@"4"];
 	[[splitCell textField] setPreferredKeyboardType: 1];
 	[splitCell setReturnAction:@selector(calcIt)];
-	[splitCell setTarget:self];
+	[splitCell setTarget: self];
 
 	resultCell = [[UIPreferencesTextTableCell alloc] init];
-	[resultCell setTitle:@"Each party owes: "];
+	[resultCell setTitle:@"Each party owes:"];
 	[resultCell setPlaceHolderValue:@"16.04"];
 
 	versionCell = [[UIPreferencesTextTableCell alloc] init];
@@ -74,7 +72,6 @@
 }
 
 // ----------------Delegate Methods----------------
-
 
 - (void)tableRowSelected:(NSNotification*)notification;
 {
@@ -124,7 +121,6 @@
 - (UIPreferencesTableCell *)preferencesTable:(UIPreferencesTable *)table cellForGroup:(int)group
 {
 	UIPreferencesTableCell *cell = [[UIPreferencesTableCell alloc] init];
-	
 	return [cell autorelease];
 }
 
@@ -145,15 +141,13 @@
 	}
 	else if (group == 2) 
 	{
-		{
-//			NSString *version = [NSString stringWithFormat:@"Version 0.3.1 %C 2007 Aaron Miller", 0xA9];
-			NSString *version = [NSString stringWithFormat:@""];
-			[versionCell setTitle:version];
-			[versionCell setAlignment:2];
-			[versionCell setDrawsBackground:NO];
-			[versionCell setEnabled:NO];
-			return versionCell;
-		}
+		[versionCell setEnabled:NO];
+//		NSString *version = [NSString stringWithFormat:@"Version 0.3.2 %C 2007 Aaron Miller", 0xA9];
+		NSString *version = [NSString stringWithFormat:@""];
+		[versionCell setTitle:version];
+		[versionCell setDrawsBackground:NO];
+		[versionCell _setDrawAsLabel:YES];
+		return versionCell;
 	}
 }
 
