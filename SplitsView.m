@@ -78,7 +78,8 @@
 - (void)tableRowSelected:(NSNotification*)notification;
 {
 	NSLog(@"selected row %d", [table selectedRow]);
-	//note: grouping seems to insert empty rows, adjust indices accordingly to trigger selectedRow
+	//note: grouping seems to insert empty rows, adjust indices accordingly 
+	//to trigger appropriate selectedRow
 }
 
 - (void)navigationBar:(UINavigationBar*)navBar buttonClicked:(int)button 
@@ -87,13 +88,11 @@
 	{
 		case 0:
 		{
-			NSLog(@"left");
 			[self calcIt];
 			break;
 		}
 		case 1:
 		{
-			NSLog(@"right");
 			[billCell setValue:@""]; [billCell setPlaceHolderValue:@""];
 			[tipCell setValue:@""]; [tipCell setPlaceHolderValue:@""];
 			[splitCell setValue:@""]; [splitCell setPlaceHolderValue:@""];
@@ -151,6 +150,18 @@
 		[versionCell _setDrawAsLabel:YES];
 		return versionCell;
 	}
+}
+
+- (void)dealloc
+{
+	[table release];
+	[navBar release];
+	[billCell release];
+	[tipCell release];
+	[splitCell release];
+	[resultCell release];
+	[versionCell release];
+	[super dealloc];	
 }
 
 @end
