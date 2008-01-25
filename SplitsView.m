@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Aaron H. Miller
+ * Copyright (c) 2008, Aaron H. Miller
 
  * All rights reserved.
 
@@ -11,157 +11,150 @@
  */
 
 #import "SplitsView.h"
-
+#import "GroupView.h"
+#import "SoloView.h"
+/*
+ * SplitsView
+ */
 @implementation SplitsView
 
 -(id)initWithFrame:(CGRect)frame
 {
-	self = [super initWithFrame:frame];
-	
-	CGRect rect = [UIHardware fullScreenApplicationContentRect];
-	rect.origin.x = rect.origin.y = 0.0f;
-	
-	table = [[UIPreferencesTable alloc] initWithFrame:CGRectMake(0.0f, UI_TOP_NAVIGATION_BAR_HEIGHT, 320.0f, 415.0f)];
-	[table setDataSource:self];
-	[table setDelegate:self];
-	[table reloadData];
-	
-	navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.width,UI_TOP_NAVIGATION_BAR_HEIGHT)];
-	[navBar showButtonsWithLeftTitle:@"Clear" rightTitle:@"Calculate"];
-	[navBar enableAnimation];
-	[navBar setDelegate: self];
- 	[navBar pushNavigationItem: [[UINavigationItem alloc] initWithTitle: @"Splitter"]];
+	if ((self == [super initWithFrame:frame])!=nil)
+	{
+		barStatus = 1;
 
-	keyboard = [[UIKeyboard alloc] initWithDefaultSize];
+		rect = [UIHardware fullScreenApplicationContentRect];
+		_offScreenRect = frame;
+		_onScreenRect = frame;
+		_onScreenRect.origin.x = 0.0f;
+		rect.origin.x = rect.origin.y = 0.0f;
 
-	billCell = [[UIPreferencesTextTableCell alloc] init];
-	[billCell setTitle:@"Amount of bill:"];
-	[billCell setPlaceHolderValue:@"54.37"];
-	[[billCell textField] setPreferredKeyboardType: 1];
+		groupView = [ [ GroupView alloc ] initWithFrame:/*CGRectMake(0,0,320,460)*/frame];
+		soloView = [ [ SoloView alloc ] initWithFrame:frame];
+				
+		_transitionView = [ self createTransitionView ];
+		_buttonBar = [ self createButtonBar ];
 
-	tipCell = [[UIPreferencesTextTableCell alloc] init];
-	[tipCell setTitle:@"Tip percentage:"];
-	[tipCell setPlaceHolderValue:@"18%"];
-	[tipCell setValueSuffix:@"%"];
-	[[tipCell textField] setPreferredKeyboardType: 1];
-
-	splitCell = [[UIPreferencesTextTableCell alloc] init];
-	[splitCell setTitle:@"Split bill amongst:"];
-	[splitCell setPlaceHolderValue:@"4"];
-	[[splitCell textField] setReturnKeyType: 1]; //GO button
-	[[splitCell textField] setAutoEnablesReturnKey: YES];
-	[[splitCell textField] setPreferredKeyboardType: 1];
-	[splitCell setReturnAction:@selector(calcIt)];
-	[splitCell setTarget: self];
-
-	resultCell = [[UIPreferencesTextTableCell alloc] init];
-	[resultCell setTitle:@"Each party owes:"];
-	[resultCell setPlaceHolderValue:@"16.04"];
-
-	versionCell = [[UIPreferencesTextTableCell alloc] init];
-
-	[self addSubview:navBar];
-	[self addSubview:table];
-
+		[ self addSubview: _transitionView ];
+		[_transitionView transition:6 toView: groupView];
+		[ groupView addSubview: _buttonBar]; //key to proper keyboard behavior...otherwise, kb behind buttonBar
+	}
 	return self;
 }
 
-- (void)calcIt
+- (UITransitionView *)createTransitionView
 {
-	float result = ([[billCell value] floatValue] * (1 + ([[tipCell value] floatValue]/100.0))) / [[splitCell value] floatValue];
-	[resultCell setValue:[NSString stringWithFormat:@"%.2f", result]];
-	[table setKeyboardVisible:NO];
+	UITransitionView *transitionView = [ [ UITransitionView alloc ] initWithFrame:rect];
+	return transitionView;
 }
 
-// ----------------Delegate Methods----------------
-
-- (void)tableRowSelected:(NSNotification*)notification;
+- (UIButtonBar *)createButtonBar
 {
-	NSLog(@"selected row %d", [table selectedRow]);
-	//note: grouping seems to insert empty rows, adjust indices accordingly 
-	//to trigger appropriate selectedRow
+	UIButtonBar *buttonBar;
+	buttonBar = [ [ UIButtonBar alloc ]
+	                initInView: self
+	                withFrame: CGRectMake(0.0f, 411.0f, 320.0f, 49.0f)
+	                withItemList: [ self buttonBarItems ] ];
+	[buttonBar setDelegate:self];
+	[buttonBar setBarStyle:1];
+	[buttonBar setButtonBarTrackingMode: 2];
+
+	int buttons[2] = {1, 2};
+	[buttonBar registerButtonGroup:0 withButtons:buttons withCount: 2];
+	[buttonBar showButtonGroup: 0 withDuration: 0.0f];
+
+	[ buttonBar showSelectionForButton: 1];
+
+	return buttonBar;
 }
 
-- (void)navigationBar:(UINavigationBar*)navBar buttonClicked:(int)button 
+- (NSArray *)buttonBarItems
 {
-	switch (button) 
+	return [ NSArray arrayWithObjects:
+	[ NSDictionary dictionaryWithObjectsAndKeys:
+	@"buttonBarItemTapped:", kUIButtonBarButtonAction,
+	@"group.png", kUIButtonBarButtonInfo,
+	@"group_selected.png", kUIButtonBarButtonSelectedInfo,
+	[ NSNumber numberWithInt: 1], kUIButtonBarButtonTag,
+	self, kUIButtonBarButtonTarget,
+	@"Group", kUIButtonBarButtonTitle,
+	@"0", kUIButtonBarButtonType,
+	nil
+	],
+
+	[ NSDictionary dictionaryWithObjectsAndKeys:
+	@"buttonBarItemTapped:", kUIButtonBarButtonAction,
+	@"solo.png", kUIButtonBarButtonInfo,
+	@"solo_selected.png", kUIButtonBarButtonSelectedInfo,
+	[ NSNumber numberWithInt: 2], kUIButtonBarButtonTag,
+	self, kUIButtonBarButtonTarget,
+	@"Solo", kUIButtonBarButtonTitle,
+	@"0", kUIButtonBarButtonType,
+	nil
+	],
+	nil
+	];
+}
+
+- (void)buttonBarItemTapped:(id) sender
+{
+	int button = [ sender tag ];
+	switch (button)
 	{
-		case 0:
-		{
-			[self calcIt];
-			break;
+	case 1:
+		if (currentView == CB_1)
+		{}
+		else
+		{	
+			[self animate];
+			[ groupView addSubview: _buttonBar]; //so keyboard in front
+			[ _transitionView transition:0 toView:groupView ];
+			currentView = CB_1;
 		}
-		case 1:
+		break;
+	case 2:
+		if (currentView == CB_2)
+		{}
+		else
 		{
-			[billCell setValue:@""]; [billCell setPlaceHolderValue:@""];
-			[tipCell setValue:@""]; [tipCell setPlaceHolderValue:@""];
-			[splitCell setValue:@""]; [splitCell setPlaceHolderValue:@""];
-			[resultCell setValue:@""]; [resultCell setPlaceHolderValue:@""];
-			[table setKeyboardVisible:NO];
-			break;
+			[self animate];
+			[ soloView addSubview: _buttonBar]; //so keyboard in front
+			[ _transitionView transition:0 toView:soloView ];
+			currentView = CB_2;
 		}
+		break;
 	}
 }
 
-// ---------------Datasource Methods---------------
-- (int)numberOfGroupsInPreferencesTable:(UIPreferencesTable *)table
+- (void)reloadButtonBar
 {
-	return 3;
+	[ _buttonBar removeFromSuperview ];
+	[ _buttonBar release ];
+	_buttonBar = [ self createButtonBar ];
 }
 
-- (int)preferencesTable:(UIPreferencesTable *)table numberOfRowsInGroup:(int)group
+// LayerKit animation (cred to drunknbass!!! and thanks pumpkin)
+-(void)animate
 {
-	switch (group)
-	{
-		case 0: return 3;
-		case 1: return 1;
-		case 2: return 1;
-	}
-}
-
-- (UIPreferencesTableCell *)preferencesTable:(UIPreferencesTable *)table cellForGroup:(int)group
-{
-	UIPreferencesTableCell *cell = [[UIPreferencesTableCell alloc] init];
-	return [cell autorelease];
-}
-
-- (UIPreferencesTableCell *)preferencesTable:(UIPreferencesTable *)table cellForRow:(int)row inGroup:(int)group
-{ 
-	if (group == 0) {
-		switch (row) 
-		{
-			case 0: return billCell;
-			case 1: return tipCell;
-			case 2: return splitCell;
-		}
-	}
-	else if (group == 1) 
-	{
-		[[resultCell textField] setEnabled:NO];
-		return resultCell;
-	}
-	else if (group == 2) 
-	{
-//		NSString *version = [NSString stringWithFormat:@"Version 0.3.3 %C 2007 Aaron Miller", 0xA9];
-		NSString *version = [NSString stringWithFormat:@""];
-		[versionCell setEnabled:NO];
-		[versionCell setTitle:version];
-		[versionCell setDrawsBackground:NO];
-		[versionCell _setDrawAsLabel:YES];
-		return versionCell;
-	}
+	LKAnimation *animation = [LKTransition animation];
+	[animation setType: @"swirl"];
+	[animation setTimingFunction: [LKTimingFunction functionWithName: @"easeInEaseOut"]];
+	[animation setFillMode: @"extended"];
+	[animation setTransitionFlags: 3]; //makes smoother
+	[animation setDuration: 10];
+	[animation setSpeed:0.35];
+	[[self _layer] addAnimation: animation forKey: 0];
 }
 
 - (void)dealloc
 {
-	[table release];
-	[navBar release];
-	[billCell release];
-	[tipCell release];
-	[splitCell release];
-	[resultCell release];
-	[versionCell release];
+	[_buttonBar release];
+	[_transitionView release];
+	[soloView release];
+	[groupView release];
 	[super dealloc];	
 }
+@end //@implementation SplitsView
 
-@end
+
