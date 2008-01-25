@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Aaron H. Miller
+ * Copyright (c) 2008, Aaron H. Miller
 
  * All rights reserved.
 
@@ -15,24 +15,27 @@
 @implementation SplitterApplication
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	UIWindow *window;
 
 	struct CGRect rect = [UIHardware fullScreenApplicationContentRect];
 	rect.origin.x = rect.origin.y = 0.0f;
 
+	// for transparent status bar, set height to zero so that the
+	// main view can start at the top of the screen.
+//	[self setStatusBarMode:1 orientation:0 duration:0.0f fenceID:0]; //mode transparent
+	
 	window = [[UIWindow alloc] initWithContentRect: rect];
-	mainView = [[UIView alloc] initWithFrame: rect];
+	splitsView = [[SplitsView alloc] initWithFrame: rect];
  
 	[window orderFront: self];
 	[window makeKey: self];
 	[window _setHidden: NO];
-	[window setContentView: mainView];
-
-	splitsView = [[SplitsView alloc] initWithFrame:rect];
-	
-	[mainView addSubview:splitsView];
+	[window setContentView: splitsView];
 }
 
+- (void)dealloc
+{
+	[window release];
+	[splitsView release];
+	[super dealloc];	
+}
 @end
-
-

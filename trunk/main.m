@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Aaron H. Miller
+ * Copyright (c) 2008, Aaron H. Miller
 
  * All rights reserved.
 
@@ -10,8 +10,6 @@
  * The names of its contributors may not be used to endorse or promote products derived from this software without specific prior written permission.
  */
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 #import "SplitterApplication.h"
 
 int main(int argc, char **argv)
