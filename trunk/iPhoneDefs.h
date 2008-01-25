@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Aaron H. Miller
+ * Copyright (c) 2008, Aaron H. Miller
 
  * All rights reserved.
 
@@ -11,7 +11,7 @@
  */
 
 #define UI_TOP_NAVIGATION_BAR_HEIGHT  45.0f
-#define UI_BOTTOM_NAVIGATION_BAR_HEIGHT 40.0f
+#define UI_BOTTOM_BUTTON_BAR_HEIGHT 49.0f
 
 // UIButtonBar
 enum UIButtonBarStyle {barstyleBlue = 0, barstyleBlack = 1, barstyleTransparent = 2};

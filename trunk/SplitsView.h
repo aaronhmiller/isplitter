@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Aaron H. Miller
+ * Copyright (c) 2008, Aaron H. Miller
 
  * All rights reserved.
 
@@ -10,36 +10,46 @@
  * The names of its contributors may not be used to endorse or promote products derived from this software without specific prior written permission.
  */
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <UIKit/UIApplication.h>
-#import <UIKit/UIView.h>
-#import <UIKit/UIPreferencesTable.h>
-#import <UIKit/UIPreferencesTableCell.h>
-#import <UIKit/UIPreferencesTextTableCell.h>
-#import <UIKit/UIPreferencesDeleteTableCell.h>
-#import <UIKit/UIKeyboard.h>
-#import <UIKit/UINavigationItem.h>
-#import <UIKit/UITextField.h>
-#import "iPhoneDefs.h"
-
+#import <UIKit/UIButtonBar.h>
+#import <UIKit/UITransitionView.h>
+#import <LayerKit/LayerKit.h>
 
 @interface SplitsView : UIView {
-	UINavigationBar 		*navBar;
-	UIKeyboard			*keyboard;
-	UIPreferencesTable 		*table;
-	UIPreferencesTextTableCell 	*billCell, *tipCell, *splitCell, *resultCell, *versionCell;
+	
+	UITransitionView   *_transitionView;
+	UIButtonBar        *_buttonBar;
+	UIView			*groupView;
+	UIView			*soloView;
+	int       currentView;
+	int		  barStatus;
+
+	struct CGRect				rect;
+	struct CGRect				_offScreenRect;
+	struct CGRect				_onScreenRect;	
 }
 
--(id)initWithFrame:(struct CGRect)frame;
+- (id)initWithFrame:(struct CGRect)frame;
+- (UIButtonBar *)createButtonBar;
+- (void)buttonBarItemTapped:(id)sender;
+- (NSArray *)buttonBarItems;
+- (void)reloadButtonBar;
+- (UITransitionView *)createTransitionView;
+- (void)animate;
 
-//Delegate Methods
--(void)tableRowSelected:(NSNotification *)notification;
+#define CB_1  0x00
+#define CB_2 0x01
 
-//DataSource Methods
--(int)numberOfGroupsInPreferencesTable:(UIPreferencesTable *)table;
--(int)preferencesTable:(UIPreferencesTable *)table numberOfRowsInGroup:(int)group;
--(UIPreferencesTableCell *)preferencesTable:(UIPreferencesTable *)table cellForGroup:(int)group;
--(UIPreferencesTableCell *)preferencesTable:(UIPreferencesTable *)table cellForRow:(int)row inGroup:(int)group;
+extern NSString *kUIButtonBarButtonAction;
+extern NSString *kUIButtonBarButtonInfo;
+extern NSString *kUIButtonBarButtonInfoOffset;
+extern NSString *kUIButtonBarButtonSelectedInfo;
+extern NSString *kUIButtonBarButtonStyle;
+extern NSString *kUIButtonBarButtonTag;
+extern NSString *kUIButtonBarButtonTarget;
+extern NSString *kUIButtonBarButtonTitle;
+extern NSString *kUIButtonBarButtonTitleVerticalHeight;
+extern NSString *kUIButtonBarButtonTitleWidth;
+extern NSString *kUIButtonBarButtonType;
 
-@end
+@end //@interface SplitsView
+
