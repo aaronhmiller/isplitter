@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Aaron H. Miller
+ * Copyright (c) 2008, Aaron H. Miller
 
  * All rights reserved.
 
@@ -10,14 +10,11 @@
  * The names of its contributors may not be used to endorse or promote products derived from this software without specific prior written permission.
  */
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <UIKit/UIApplication.h>
-#import <UIKit/UIView.h>
 #import "SplitsView.h"
 
 @interface SplitterApplication : UIApplication {
-	UIView				*mainView;
-	SplitsView			*splitsView;
+	UIWindow 	*window;
+	SplitsView	*splitsView;
 }
 @end
