@@ -7,16 +7,16 @@
 	<key>CFBundleExecutable</key>
 	<string>Splitter</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.iphonedevdocs.Splitter</string>
+	<string>com.googlecode.isplitter</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.4.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>SBUsesNetwork</key>
-	<integer>3</integer>
 </dict>
 </plist>
