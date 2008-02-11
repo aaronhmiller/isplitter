@@ -32,7 +32,8 @@
 @interface GroupView : UIView {
 	UINavigationBar 		*navBar;
 	UIPreferencesTable 		*table;
-	UIPreferencesTextTableCell 	*billCell, *tipCell, *splitCell, *resultCell, *versionCell;
+	UIPreferencesTextTableCell 	*billCell, *tipCell, *splitCell, *resultCell;
+	UIPreferencesTableCell		*versionCell;
 }
 
 -(id)initWithFrame:(struct CGRect)frame;
