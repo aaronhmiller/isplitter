@@ -58,7 +58,7 @@
 	[resultCell setTitle:@"Each party owes:"];
 	[resultCell setPlaceHolderValue:@"16.04"];
 
-	versionCell = [[UIPreferencesTextTableCell alloc] init];
+	versionCell = [[UIPreferencesTableCell alloc] init]; //not text-table since no data entry
 
 	[self addSubview:navBar];
 	[self addSubview:table];
@@ -165,7 +165,6 @@
 	else if (group == 2) 
 	{
 		NSString *version = [NSString stringWithFormat:@"Version 0.4 %C 2008 Aaron Miller", 0xA9];
-		[versionCell setEnabled:NO];
 		[versionCell setTitle:version];
 		[versionCell setDrawsBackground:NO];
 		[versionCell _setDrawAsLabel:YES];
